@@ -1,4 +1,4 @@
-from Student import student 
+from Student import Student 
 
 class GraduateStudent(student):
     def __init__(self,name,id,grades,thesis):
