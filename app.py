@@ -23,9 +23,9 @@ def home():
     return "<h1>Welcome page</h1>"
 
 # GET Route : Hello
-@app.route("/hello")
-def hello():
-    return "<h2>Hello, User</h2>"
+@app.route("/hello/<name>")
+def hello(name):
+    return f"<h2>Hello, {name}</h2>"
 
 
 if __name__ == "__main__":
