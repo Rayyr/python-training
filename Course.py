@@ -7,7 +7,7 @@ class Course:
         self.students.append(student_obj)
 
     def class_avg(self):
-        if not self.students
+        if not self.students:
            return 0
         
          return sum(s.get_avg() for s in self.students) / len(self.students) 
