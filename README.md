@@ -21,23 +21,4 @@ It allows users to:
 ---
 
 ## 🧱 Project Structure
-project/
-│
-├── app/
-│ ├── __init__.py
-│ ├── routes.py
-│ └── models.py
-│
-├── templates/
-│ ├── base.html
-│ ├── index.html
-│ ├── register.html
-│ ├── students.html
-│ └── student_detail.html
-│
-├── tests/
-│ └── test_routes.py
-│
-├── run.py
-├── requirements.txt
-└── README.md
+<img width="314" height="519" alt="image" src="https://github.com/user-attachments/assets/c057b3d9-5167-49cc-a150-705f232f1529" />
