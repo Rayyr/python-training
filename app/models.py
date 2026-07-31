@@ -1,10 +1,14 @@
-students = []
+from .extensions import db
 
-def add_student(data):
-    students.append(data)
+class Student(db.Model):
+    id = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
 
-def get_students():
-    return students
+    def __repr__(self):
+        return f"<Student {self.name}>"
 
-def get_student(student_id):
-    return next((s for s in students if s["id"] == student_id), None)
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
