@@ -8,7 +8,8 @@ def create_app():
 
     db.init_app(app)
 
-    from .routes.students import students_bp
-    app.register_blueprint(students_bp)
+    # Register blueprints
+    from .routes.api_students import api_students_bp
+    app.register_blueprint(api_students_bp)
 
     return app
