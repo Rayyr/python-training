@@ -22,3 +22,10 @@ It allows users to:
 
 ## 🧱 Project Structure
 <img width="314" height="519" alt="image" src="https://github.com/user-attachments/assets/c057b3d9-5167-49cc-a150-705f232f1529" />
+
+---
+
+## 🚀 Run project
+- Clone the repo
+- Install requirements : pip install -r requirements.txt
+- run it : python run.py
