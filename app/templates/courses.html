@@ -1,0 +1,11 @@
+<h2>Courses</h2>
+<form method="POST" action="/courses/add">
+<input name="title" placeholder="Course Title">
+<button>Add</button>
+</form>
+
+<ul>
+{% for c in courses %}
+<li>{{ c.title }}</li>
+{% endfor %}
+</ul>

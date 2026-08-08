@@ -1,0 +1,12 @@
+<h2>Students</h2>
+<form method="POST" action="/students/add">
+<input name="name" placeholder="Name">
+<input name="email" placeholder="Email">
+<button>Add</button>
+</form>
+
+<ul>
+{% for s in students %}
+<li>{{ s.name }} - {{ s.email }}</li>
+{% endfor %}
+</ul>
