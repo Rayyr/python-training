@@ -1,0 +1,33 @@
+Table user {
+  id integer [pk, increment]
+  username varchar(100) [not null, unique]
+  password varchar(255) [not null]
+  role varchar(20) [not null]
+  profile_picture varchar(255)
+}
+
+Table student {
+  id integer [pk, increment]
+  name varchar(100) [not null]
+  email varchar(100) [not null, unique]
+  user_id integer [unique]
+}
+
+Table course {
+  id integer [pk, increment]
+  title varchar(100) [not null]
+  description text
+}
+
+Table student_courses {
+  student_id integer [not null]
+  course_id integer [not null]
+
+  indexes {
+    (student_id, course_id) [pk]
+  }
+}
+
+Ref: student.user_id - user.id
+Ref: student_courses.student_id > student.id
+Ref: student_courses.course_id > course.id

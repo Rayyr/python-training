@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head><title>Courses</title></head>
+<body>
+<nav>
+  <a href="/students/">Students</a> |
+  <a href="/courses/">Courses</a> |
+  <a href="/profile/">Profile</a> |
+  <a href="/logout">Logout</a>
+</nav>
+
+<h2>Courses</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+{% endwith %}
+
+{% if current_user.has_role("admin", "instructor") %}
+<form method="POST" action="/courses/add">
+  <input name="title" placeholder="Course Title" required>
+  <input name="description" placeholder="Description">
+  <button>Add Course</button>
+</form>
+{% endif %}
+
+<ul>
+{% for c in courses %}
+  <li>
+    <strong>{{ c.title }}</strong>
+    {% if c.description %} - {{ c.description }}{% endif %}
+    ({{ c.students|length }} students)
+  </li>
+{% else %}
+  <li>No courses found.</li>
+{% endfor %}
+</ul>
+</body>
+</html>
