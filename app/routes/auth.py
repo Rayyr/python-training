@@ -1,5 +1,8 @@
 import os
 import uuid
+from ..forms import ProfilePictureForm
+from ..forms import LoginForm, ProfilePictureForm
+from flask_login import login_user, logout_user, login_required, current_user
 
 from flask import (
     Blueprint,
@@ -114,38 +117,22 @@ def register():
 # LOGIN
 # =========================
 
-@auth_bp.route(
-    "/login",
-    methods=["GET", "POST"]
-)
+@auth_bp.route("/login", methods=["GET", "POST"])
 def login():
-
     if current_user.is_authenticated:
-        return redirect(
-            url_for("auth.profile")
-        )
+        return redirect(url_for("auth.profile"))
 
-    if request.method == "POST":
+    form = LoginForm()
 
-        username = request.form.get(
-            "username",
-            ""
-        ).strip()
-
-        password = request.form.get(
-            "password",
-            ""
-        )
-
+    if form.validate_on_submit():
         user = User.query.filter_by(
-            username=username
+            username=form.username.data.strip()
         ).first()
 
         if user and check_password_hash(
             user.password,
-            password
+            form.password.data
         ):
-
             login_user(user)
 
             flash(
@@ -153,9 +140,7 @@ def login():
                 "success"
             )
 
-            return redirect(
-                url_for("auth.profile")
-            )
+            return redirect(url_for("auth.profile"))
 
         flash(
             "Invalid username or password.",
@@ -163,9 +148,9 @@ def login():
         )
 
     return render_template(
-        "login.html"
+        "login.html",
+        form=form
     )
-
 
 # =========================
 # LOGOUT
@@ -174,17 +159,9 @@ def login():
 @auth_bp.route("/logout")
 @login_required
 def logout():
-
     logout_user()
-
-    flash(
-        "You have been logged out.",
-        "success"
-    )
-
-    return redirect(
-        url_for("auth.login")
-    )
+    flash("You have been logged out.", "success")
+    return redirect(url_for("auth.login"))
 
 
 # =========================
@@ -194,11 +171,11 @@ def logout():
 @auth_bp.route("/profile")
 @login_required
 def profile():
-
+    form = ProfilePictureForm()
     return render_template(
-        "profile.html"
+        "profile.html",
+        form=form
     )
-
 
 # =========================
 # PROFILE PICTURE
