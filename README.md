@@ -1,4 +1,4 @@
-# Week 9 Day 2 – Advanced Flask Features
+# Week 9 Day 3 – Advanced Flask Features
 
 ## Features
 
@@ -68,8 +68,11 @@ app/static/uploads/
 ## Tests
 
 ```bash
-pytest
+oython -m pytest
 ```
+
+## Screenshots
+<img width="1042" height="576" alt="image" src="https://github.com/user-attachments/assets/c4e94276-ba0c-44dd-bc35-72c5ee66ac9c" />
 
 ## Important
 
