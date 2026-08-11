@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1>Students</h1>
+    <p class="text-muted">Manage students and their course enrollments.</p>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('students.create_student') }}">+ Add Student</a>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <label for="studentSearch" class="form-label">Dynamic Student Search</label>
+    <input id="studentSearch" class="form-control" placeholder="Search by name or email..." autocomplete="off">
+    <div id="searchResults" class="mt-2"></div>
+  </div>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-md-10">
+    <input name="q" value="{{ q }}" class="form-control" placeholder="Filter students...">
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-outline-primary w-100">Filter</button>
+  </div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-hover align-middle">
+<thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Courses</th><th></th></tr></thead>
+<tbody>
+{% for student in students.items %}
+<tr>
+  <td>{{ student.name }}</td>
+  <td>{{ student.email }}</td>
+  <td>{{ student.phone or "—" }}</td>
+  <td><span class="badge text-bg-secondary">{{ student.courses|length }}</span></td>
+  <td class="text-end">
+    <a class="btn btn-sm btn-outline-primary" href="{{ url_for('students.detail_student', student_id=student.id) }}">View</a>
+    <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('students.edit_student', student_id=student.id) }}">Edit</a>
+    <form class="d-inline" method="post" action="{{ url_for('students.delete_student', student_id=student.id) }}">
+      {{ csrf_token() if false }}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this student?')">Delete</button>
+    </form>
+  </td>
+</tr>
+{% else %}
+<tr><td colspan="5" class="text-center text-muted py-4">No students found.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+{% if students.pages > 1 %}
+<nav>
+<ul class="pagination">
+  {% for page in students.iter_pages() %}
+    {% if page %}
+      <li class="page-item {% if page == students.page %}active{% endif %}">
+        <a class="page-link" href="{{ url_for('students.list_students', page=page, q=q) }}">{{ page }}</a>
+      </li>
+    {% else %}<li class="page-item disabled"><span class="page-link">…</span></li>{% endif %}
+  {% endfor %}
+</ul>
+</nav>
+{% endif %}
+{% endblock %}

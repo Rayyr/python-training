@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}{{ student.name }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-start mb-4">
+  <div>
+    <h1>{{ student.name }}</h1>
+    <p class="text-muted">{{ student.email }} · {{ student.phone or "No phone" }}</p>
+  </div>
+  <a class="btn btn-outline-secondary" href="{{ url_for('students.edit_student', student_id=student.id) }}">Edit</a>
+</div>
+
+<div class="row g-4">
+<div class="col-md-5">
+<div class="card">
+<div class="card-body">
+{% if student.profile_picture %}
+<img src="{{ url_for('static', filename='uploads/' + student.profile_picture) }}" class="img-fluid rounded mb-3" alt="Profile picture">
+{% endif %}
+<h2 class="h5">Student information</h2>
+<p><strong>ID:</strong> {{ student.id }}</p>
+<p><strong>Email:</strong> {{ student.email }}</p>
+<p><strong>Phone:</strong> {{ student.phone or "—" }}</p>
+</div></div></div>
+
+<div class="col-md-7">
+<div class="card">
+<div class="card-body">
+<h2 class="h5">Enrolled courses</h2>
+{% for course in courses %}
+<div class="d-flex justify-content-between border-bottom py-2">
+  <span><strong>{{ course.code }}</strong> — {{ course.name }}</span>
+  <form method="post" action="{{ url_for('students.unenroll_student', student_id=student.id, course_id=course.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button class="btn btn-sm btn-outline-danger">Remove</button>
+  </form>
+</div>
+{% else %}<p class="text-muted">No courses yet.</p>{% endfor %}
+
+<h3 class="h6 mt-4">Add enrollment</h3>
+<form method="post" action="{{ url_for('students.enroll_student', student_id=student.id) }}" class="d-flex gap-2">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <select name="course_id" class="form-select">
+    {% for course in all_courses %}
+      <option value="{{ course.id }}">{{ course.code }} — {{ course.name }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-primary">Enroll</button>
+</form>
+</div></div></div>
+</div>
+{% endblock %}

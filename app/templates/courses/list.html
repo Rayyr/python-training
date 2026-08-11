@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div><h1>Courses</h1><p class="text-muted">Manage courses and enrollment data.</p></div>
+  <a class="btn btn-primary" href="{{ url_for('courses.create_course') }}">+ Add Course</a>
+</div>
+<form class="row g-2 mb-3" method="get">
+  <div class="col-md-10"><input name="q" value="{{ q }}" class="form-control" placeholder="Filter by course code or name..."></div>
+  <div class="col-md-2"><button class="btn btn-outline-primary w-100">Filter</button></div>
+</form>
+<div class="row g-3">
+{% for course in courses.items %}
+<div class="col-md-6 col-lg-4">
+<div class="card h-100">
+<div class="card-body">
+<span class="badge text-bg-primary">{{ course.code }}</span>
+<h2 class="h5 mt-2">{{ course.name }}</h2>
+<p class="text-muted">{{ course.description or "No description." }}</p>
+<p><strong>{{ course.students|length }}</strong> enrolled</p>
+<a href="{{ url_for('courses.edit_course', course_id=course.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+<form class="d-inline" method="post" action="{{ url_for('courses.delete_course', course_id=course.id) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this course?')">Delete</button>
+</form>
+</div></div></div>
+{% else %}<p class="text-muted">No courses found.</p>{% endfor %}
+</div>
+{% if courses.pages > 1 %}
+<nav class="mt-4"><ul class="pagination">
+{% for page in courses.iter_pages() %}{% if page %}
+<li class="page-item {% if page == courses.page %}active{% endif %}"><a class="page-link" href="{{ url_for('courses.list_courses', page=page, q=q) }}">{{ page }}</a></li>
+{% endif %}{% endfor %}
+</ul></nav>
+{% endif %}
+{% endblock %}
