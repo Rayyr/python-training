@@ -1,6 +1,5 @@
 import os
 import uuid
-from ..forms import ProfilePictureForm
 from ..forms import LoginForm, ProfilePictureForm
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -14,7 +13,6 @@ from flask import (
     url_for,
 )
 
-from flask_login import current_user, login_required, login_user, logout_user
 
 from werkzeug.security import check_password_hash, generate_password_hash
 

@@ -9,7 +9,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
 
     app.config.update(
-        SECRET_KEY=os.environ.get("SECRET_KEY", "dev-secret-key"),
+        SECRET_KEY="xxSecretxx",
         SQLALCHEMY_DATABASE_URI="sqlite:///app.db",
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         UPLOAD_FOLDER=os.path.join(
@@ -25,8 +25,6 @@ def create_app(test_config=None):
 
     db.init_app(app)
     login_manager.init_app(app)
-
-    from .models import course, enrollment, student, user
 
     from .api.enrollment import enrollment_bp
     from .routes.auth import auth_bp
