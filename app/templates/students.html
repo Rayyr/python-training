@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Students</h2>
+
+<form method="GET">
+    <input
+        name="search"
+        value="{{ search }}"
+        placeholder="Search student"
+    >
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+<form method="POST" action="/students/add">
+    <input
+        name="name"
+        placeholder="Name"
+        required
+    >
+
+    <input
+        name="email"
+        type="email"
+        placeholder="Email"
+        required
+    >
+
+    <button type="submit">
+        Add Student
+    </button>
+</form>
+
+<hr>
+
+{% for student in students.items %}
+    <p>
+        {{ student.name }} - {{ student.email }}
+    </p>
+{% else %}
+    <p>No students found.</p>
+{% endfor %}
+
+{% if students.has_prev %}
+    <a href="{{ url_for(
+        'students.list_students',
+        page=students.prev_num,
+        search=search
+    ) }}">
+        Previous
+    </a>
+{% endif %}
+
+Page {{ students.page }} of {{ students.pages }}
+
+{% if students.has_next %}
+    <a href="{{ url_for(
+        'students.list_students',
+        page=students.next_num,
+        search=search
+    ) }}">
+        Next
+    </a>
+{% endif %}
+
+{% endblock %}
