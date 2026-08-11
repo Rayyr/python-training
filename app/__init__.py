@@ -7,7 +7,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
 
     app.config.update(
-        SECRET_KEY="dev-secret-change-me",
+        SECRET_KEY="xxSecretxx",
         SQLALCHEMY_DATABASE_URI="sqlite:///app.db",
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         UPLOAD_FOLDER=os.path.join(
