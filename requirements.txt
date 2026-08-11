@@ -5,3 +5,6 @@ Flask-WTF
 WTForms
 email-validator
 pytest
+pytest-cov
+black
+flake8

@@ -6,14 +6,10 @@ from wtforms.validators import DataRequired, Length
 
 class LoginForm(FlaskForm):
     username = StringField(
-        "Username",
-        validators=[DataRequired(), Length(min=3, max=100)]
+        "Username", validators=[DataRequired(), Length(min=3, max=100)]
     )
 
-    password = PasswordField(
-        "Password",
-        validators=[DataRequired()]
-    )
+    password = PasswordField("Password", validators=[DataRequired()])
 
     submit = SubmitField("Login")
 
@@ -23,11 +19,8 @@ class ProfilePictureForm(FlaskForm):
         "Profile Picture",
         validators=[
             FileRequired(),
-            FileAllowed(
-                ["jpg", "jpeg", "png", "gif"],
-                "Images only!"
-            )
-        ]
+            FileAllowed(["jpg", "jpeg", "png", "gif"], "Images only!"),
+        ],
     )
 
     submit = SubmitField("Upload")
