@@ -1,0 +1,15 @@
+<h2>Courses</h2>
+<form method="GET">
+<input name="search" value="{{ search }}" placeholder="Search course">
+<button>Search</button>
+</form>
+<hr>
+<form method="POST" action="/courses/add">
+<input name="title" placeholder="Course title" required>
+<button>Add Course</button>
+</form>
+<hr>
+{% for c in courses.items %}<p>{{ c.title }}</p>{% else %}<p>No courses found.</p>{% endfor %}
+{% if courses.has_prev %}<a href="{{ url_for('courses.list_courses',page=courses.prev_num,search=search) }}">Previous</a>{% endif %}
+Page {{ courses.page }} of {{ courses.pages }}
+{% if courses.has_next %}<a href="{{ url_for('courses.list_courses',page=courses.next_num,search=search) }}">Next</a>{% endif %}
