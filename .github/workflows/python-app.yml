@@ -22,4 +22,4 @@ jobs:
           flake8 .
       - name: Test with coverage
         run: |
-          pytest --cov=app --cov-report=term-missing --cov-fail-under=80
+          python -m pytest --cov=app --cov-report=term-missing --cov-fail-under=80

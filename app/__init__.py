@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from pathlib import Path
 from config import Config
+from flask import render_template
 
 db = SQLAlchemy()
 csrf = CSRFProtect()
@@ -35,13 +36,7 @@ def create_app(config_class=Config):
         return render_template("errors/500.html"), 500
 
     with app.app_context():
-        from app.models.student import Student
-        from app.models.course import Course
-        from app.models.enrollment import Enrollment
 
         db.create_all()
 
     return app
-
-
-from flask import render_template
