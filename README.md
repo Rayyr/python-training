@@ -41,19 +41,13 @@ Windows:
 .venv\Scripts\activate
 ```
 
-macOS/Linux:
-
-```bash
-source .venv/bin/activate
-```
-
 Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Copy `.env.example` to `.env` and set a secure `SECRET_KEY`.
+Copy `.env.example` to `.env` and set the keys with your values.
 
 Run the application:
 
@@ -82,7 +76,7 @@ pytest
 Coverage:
 
 ```bash
-pytest --cov=app --cov-report=term-missing --cov-fail-under=80
+python -m pytest test --cov=app --cov-report=term-missing --cov-fail-under=80
 ```
 
 Lint/format checks:
@@ -171,6 +165,7 @@ student_portal/
 │   │   ├── student.py
 │   │   ├── course.py
 │   │   └── enrollment.py
+|   |   |__ user.py
 │   ├── routes/
 │   │   ├── students.py
 │   │   ├── courses.py
@@ -183,6 +178,7 @@ student_portal/
 │   ├── test_students.py
 │   ├── test_courses.py
 │   └── test_auth.py
+|   └── test_enrollment.py
 ├── .github/workflows/python-app.yml
 ├── config.py
 ├── requirements.txt
@@ -206,7 +202,7 @@ Gunicorn start command:
 gunicorn run:app
 ```
 
-For production, use a persistent database and persistent/object storage for uploaded images.
+For production, use a persistent database and persistent/object storage for uploaded images as Cloudinary.
 
 ## Screenshots
 
