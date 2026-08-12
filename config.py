@@ -3,7 +3,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent
-load_dotenv(BASE_DIR / ".env")
+load_dotenv()
 
 
 class Config:
@@ -13,5 +13,5 @@ class Config:
     ).replace("postgres://", "postgresql://", 1)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", str(BASE_DIR / "app" / "static" / "uploads"))
-    MAX_CONTENT_LENGTH = 5 * 1024 * 1024
-    TESTING = False
+    MAX_CONTENT_LENGTH = int(os.getenv("MAX_CONTENT_LENGTH",5*1024*1024))
+    TESTING =  os.getenv("TESTING", "False").lower() == "true"
