@@ -166,5 +166,3 @@ def login(client, email, password):
         },
         follow_redirects=True,
     )
-
-

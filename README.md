@@ -213,31 +213,16 @@ For production, use a persistent database and persistent/object storage for uplo
 Add screenshots of the running application here before final submission. Suggested screenshots:
 
 1. Students list and pagination
+![student list with pagination and filter bar](image.png)
 2. Student profile with uploaded picture
+![Edit profile page](image-1.png)
+![Student profile page](image-2.png)
 3. Course list
-4. Enrollment relationship
-5. Dynamic student search
-6. API response
-7. GitHub Actions passing tests
-
-## Deployment Link
-
-Replace this section with the real deployed Render or Railway URL after deployment.
-
-`https://YOUR-DEPLOYMENT-URL`
-
-## Live Demo
-
-Replace with the final live demo URL.
-
-## GitHub Repository
-
-Replace with the final GitHub repository URL.
-
-## Notes
-
-The deployment link, GitHub repository URL, and screenshots must be added after the project is actually pushed/deployed. These values cannot be generated locally.
-
+![Course list page](image-3.png)
+4. Dynamic student search
+![alt text](image-4.png)
+5. Coverage report
+![alt text](image-5.png)
 
 
 ## 🔮 Future Plans
@@ -291,3 +276,6 @@ The Student Portal can be further improved and expanded in future versions with 
 
 ### 🧪 Testing & Code Quality
 - Increase automated test coverage to **80–90% or higher**.
+
+### Deployment
+Deploy it as a full stack website using Render 

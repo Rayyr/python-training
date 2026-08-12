@@ -98,7 +98,7 @@ def test_signup_duplicate_email(app, client):
 
 
 def test_login_invalid_password(client, admin):
-    response=client.post("/login",data={"email": "admin@gmail.com","password":"wrong-password"})
+    response = client.post("/login" , data = {"email" : "admin@gmail.com" , "password" : "wrong-password"})
      
     assert response.status_code == 200
     assert b"Invalid" in response.data
