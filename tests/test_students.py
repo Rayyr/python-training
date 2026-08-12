@@ -1,6 +1,7 @@
 from app import db
 from app.models.student import Student
 from app.models.user import User
+from app.models.enrollment import Enrollment
 import os
 from io import BytesIO
 from tests.conftest import login
@@ -353,10 +354,7 @@ def test_admin_cannot_edit_profile(
     assert b"Administrators should use the admin tools." in response.data
 
 
-""" def test_not_student_can_edit_profile(
-    app,client,student
-):
-    client """
+
 def test_student_can_update_profile_picture(
     app,
     client,
@@ -405,3 +403,242 @@ def test_student_can_update_profile_picture(
         )
 
         assert os.path.exists(file_path)
+ 
+
+def test_edit_profile_student_not_found(
+    app,
+    client,
+):
+    with app.app_context():
+
+        user = User(
+            name="Orphan Student",
+            email="orphan@gmail.com",
+            role="student",
+            student_id=None,
+        )
+
+        user.set_password("student123")
+
+        db.session.add(user)
+        db.session.commit()
+
+    client.post(
+        "/login",
+        data={
+            "email": "orphan@gmail.com",
+            "password": "student123",
+        },
+    )
+
+    response = client.get(
+        "/profile/edit",
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert "/login" in response.location
+
+
+
+def test_unenroll_student_profile_not_found(
+    app,
+    client,
+    course,
+):
+    with app.app_context():
+
+        user = User(
+            name="Orphan Student",
+            email="orphan@gmail.com",
+            role="student",
+            student_id=None,
+        )
+
+        user.set_password("student123")
+
+        db.session.add(user)
+        db.session.commit()
+
+    client.post(
+        "/login",
+        data={
+            "email": "orphan@gmail.com",
+            "password": "student123",
+        },
+    )
+
+    response = client.post(
+        f"/courses/{course}/unenroll",
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert "/profile" in response.location
+
+
+def test_unenroll_when_not_enrolled(
+    client,
+    student,
+    course,
+):
+    client.post(
+        "/login",
+        data={
+            "email": "john@gmail.com",
+            "password": "student123",
+        },
+    )
+
+    response = client.post(
+        f"/courses/{course}/unenroll",
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert "/profile" in response.location
+
+
+def test_student_can_unenroll(
+    app,
+    client,
+    student,
+    course,
+):
+    with app.app_context():
+
+        user = db.session.get(
+            User,
+            student,
+        )
+
+        enrollment = Enrollment(
+            student_id=user.student.id,
+            course_id=course,
+        )
+
+        db.session.add(enrollment)
+        db.session.commit()
+
+        enrollment_id = enrollment.id
+
+    client.post(
+        "/login",
+        data={
+            "email": "john@gmail.com",
+            "password": "student123",
+        },
+    )
+
+    response = client.post(
+        f"/courses/{course}/unenroll",
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert "/profile" in response.location
+
+    with app.app_context():
+
+        deleted = db.session.get(
+            Enrollment,
+            enrollment_id,
+        )
+
+        assert deleted is None
+
+
+
+
+def test_admin_can_unenroll_student(
+    app,
+    client,
+    admin,
+    student,
+    course,
+):
+    with app.app_context():
+
+        user = db.session.get(
+            User,
+            student,
+        )
+
+        student_id = user.student.id
+
+        enrollment = Enrollment(
+            student_id=student_id,
+            course_id=course,
+        )
+
+        db.session.add(enrollment)
+        db.session.commit()
+
+        enrollment_id = enrollment.id
+
+    client.post(
+        "/login",
+        data={
+            "email": "admin@gmail.com",
+            "password": "admin123",
+        },
+    )
+
+    response = client.post(
+        f"/students/{student_id}/unenroll/{course}",
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert f"/students/{student_id}" in response.location
+
+    with app.app_context():
+
+        deleted_enrollment = db.session.get(
+            Enrollment,
+            enrollment_id,
+        )
+
+        assert deleted_enrollment is None
+
+
+def test_student_edit_profile_duplicate_email(
+    app,
+    client,
+    student,
+):
+    with app.app_context():
+
+        other_student = Student(
+            name="Other Student",
+            email="other@gmail.com",
+            phone="0599222222",
+        )
+
+        db.session.add(other_student)
+        db.session.commit()
+
+    client.post(
+        "/login",
+        data={
+            "email": "john@gmail.com",
+            "password": "student123",
+        },
+    )
+
+    response = client.post(
+        "/profile/edit",
+        data={
+            "name": "John Student",
+            "email": "other@gmail.com",
+            "phone": "0599000000",
+        },
+        follow_redirects=True,
+    )
+
+    assert response.status_code == 200
+
+    assert (
+        b"That email is already in use."
+        in response.data
+    )
