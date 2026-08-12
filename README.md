@@ -237,3 +237,57 @@ Replace with the final GitHub repository URL.
 ## Notes
 
 The deployment link, GitHub repository URL, and screenshots must be added after the project is actually pushed/deployed. These values cannot be generated locally.
+
+
+
+## 🔮 Future Plans
+
+The Student Portal can be further improved and expanded in future versions with the following features:
+
+### 🔐 Authentication & Security
+- Add a **Forgot Password / Password Reset** system.
+- Allow students to **change their passwords**.
+- Add stronger password requirements.
+- Add login rate limiting and protection against repeated failed login attempts.
+- Improve file-upload security and validation.
+
+### 📊 Admin Dashboard
+- Add a dedicated **Admin Dashboard**.
+- Display statistics such as:
+  - Total number of students.
+  - Total number of courses.
+  - Total number of enrollments.
+  - Recently registered students.
+  - Most popular courses.
+
+### 🎓 Student Dashboard
+- Create a personalized student dashboard.
+- Display enrollment status.
+
+### 📚 Course Management
+- Add course capacity limits.
+- Add course prerequisites.
+- Add course start and end dates.
+- Add course categories.
+
+### 📝 Enrollment Management
+- Add a complete enrollment management system for administrators.
+- Add enrollment history.
+
+### 🔔 Notifications
+- Add notifications for students when:
+  - They are removed from a course.
+  - A new course is available.
+- Add email notifications.
+
+### 🌐 API Improvements
+- Expand the REST API to support:
+  - Students.
+  - Courses.
+  - Enrollments.
+  - User information.
+- Add API authentication and authorization.
+- Add API documentation using **OpenAPI/Swagger/Postman**.
+
+### 🧪 Testing & Code Quality
+- Increase automated test coverage to **80–90% or higher**.
