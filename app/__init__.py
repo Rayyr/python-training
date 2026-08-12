@@ -11,9 +11,15 @@ csrf = CSRFProtect()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(config_class)
 
-    Path(app.config["UPLOAD_FOLDER"]).mkdir(parents=True, exist_ok=True)
+    if isinstance(config_class, dict):
+        app.config.from_mapping(config_class)
+    else:
+        app.config.from_object(config_class)
+
+    upload_folder = app.config.get("UPLOAD_FOLDER")
+    if upload_folder:
+        Path(upload_folder).mkdir(parents=True, exist_ok=True)
 
     db.init_app(app)
     csrf.init_app(app)
