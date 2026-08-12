@@ -6,7 +6,6 @@
     <h1>Students</h1>
     <p class="text-muted">Manage students and their course enrollments.</p>
   </div>
-  <a class="btn btn-primary" href="{{ url_for('students.create_student') }}">+ Add Student</a>
 </div>
 
 <div class="card mb-4">
@@ -37,9 +36,7 @@
   <td>{{ student.phone or "—" }}</td>
   <td><span class="badge text-bg-secondary">{{ student.courses|length }}</span></td>
   <td class="text-end">
-    <a class="btn btn-sm btn-outline-primary" href="{{ url_for('students.detail_student', student_id=student.id) }}">View</a>
-    <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('students.edit_student', student_id=student.id) }}">Edit</a>
-    <form class="d-inline" method="post" action="{{ url_for('students.delete_student', student_id=student.id) }}">
+      <form class="d-inline" method="post" action="{{ url_for('students.delete_student', student_id=student.id) }}">
       {{ csrf_token() if false }}
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this student?')">Delete</button>

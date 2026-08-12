@@ -3,7 +3,10 @@ from app import db
 from app.forms.course import CourseForm
 from app.models.course import Course
 from app.models.enrollment import Enrollment
-from app.routes.auth import login_required
+from app.routes.auth import (
+    login_required,
+    admin_required,
+)
 
 courses_bp = Blueprint("courses", __name__)
 
@@ -22,7 +25,7 @@ def list_courses():
 
 
 @courses_bp.route("/courses/new", methods=["GET", "POST"])
-@login_required
+@admin_required
 def create_course():
     form = CourseForm()
     if form.validate_on_submit():
@@ -40,7 +43,7 @@ def create_course():
 
 
 @courses_bp.route("/courses/<int:course_id>/edit", methods=["GET", "POST"])
-@login_required
+@admin_required
 def edit_course(course_id):
     course = Course.query.get_or_404(course_id)
     form = CourseForm(obj=course)
@@ -61,7 +64,7 @@ def edit_course(course_id):
 
 
 @courses_bp.route("/courses/<int:course_id>/delete", methods=["POST"])
-@login_required
+@admin_required
 def delete_course(course_id):
     course = Course.query.get_or_404(course_id)
     db.session.delete(course)
